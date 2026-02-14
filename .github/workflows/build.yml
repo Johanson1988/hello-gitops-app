@@ -10,7 +10,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   INFRA_REPO: ${{ github.repository_owner }}/infra-live
   INFRA_BRANCH: main
-  INFRA_APP_PATH: apps/${{ github.event.repository.name }}
+  INFRA_APP_PATH: apps/hello-gitops
 
 jobs:
   build:
