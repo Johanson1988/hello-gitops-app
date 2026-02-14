@@ -81,7 +81,8 @@ jobs:
           set -euo pipefail
           APP_PATH="${{ env.INFRA_APP_PATH }}"
           TAG="sha-${{ needs.build.outputs.short_sha }}"
-          IMG="${{ needs.build.outputs.image }}"
+          # Force lowercase for image name to match kustomization.yaml
+          IMG=$(echo "${{ needs.build.outputs.image }}" | tr '[:upper:]' '[:lower:]')
           
           # Create directory if it doesn't exist
           mkdir -p "${APP_PATH}"
