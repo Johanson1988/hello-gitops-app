@@ -76,11 +76,27 @@ jobs:
         uses: imranismail/setup-kustomize@v2
       
       - name: Bump image tag
-        working-directory: infra-live/${{ env.INFRA_APP_PATH }}
+        working-directory: infra-live
         run: |
           set -euo pipefail
+          APP_PATH="${{ env.INFRA_APP_PATH }}"
           TAG="sha-${{ needs.build.outputs.short_sha }}"
           IMG="${{ needs.build.outputs.image }}"
+          
+          # Create directory if it doesn't exist
+          mkdir -p "${APP_PATH}"
+          cd "${APP_PATH}"
+          
+          # Create kustomization.yaml if it doesn't exist
+          if [ ! -f kustomization.yaml ]; then
+            echo "Creating initial kustomization.yaml"
+            cat > kustomization.yaml << EOF
+          apiVersion: kustomize.config.k8s.io/v1beta1
+          kind: Kustomization
+          resources: []
+          images: []
+          EOF
+          fi
           
           echo "Updating ${IMG} to tag: ${TAG}"
           kustomize edit set image "${IMG}=${IMG}:${TAG}"
