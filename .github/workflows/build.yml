@@ -69,7 +69,7 @@ jobs:
         with:
           repository: ${{ env.INFRA_REPO }}
           ref: ${{ env.INFRA_BRANCH }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.INFRA_PAT }}
           path: infra-live
       
       - name: Install kustomize
